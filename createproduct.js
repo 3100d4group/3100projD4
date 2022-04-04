@@ -5,7 +5,7 @@ var app = express();
 var path = require("path");
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
-var url ="mongodb://localhost:27017/";
+var url ="mongodb+srv://CSCI3100:Ab123456@cluster0.wkhhe.mongodb.net/User?retryWrites=true&w=majority";
 
 app.use(require('body-parser')());
 
@@ -15,7 +15,7 @@ app.get('/',function(req,res){
   
 app.listen(3000);
 
-app.post('/testjs', function(req, res) {
+app.post('/createproduct', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
