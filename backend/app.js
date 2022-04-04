@@ -16,6 +16,24 @@ db.on('error', console.error.bind(console,
 // Upon opening the database successfully
 db.once('open', function () {
     console.log("Connection is open...");
+    
+    const ProductSchema = mongoose.Schema({
+        productId: { type: Number, required: true,
+        unique: true },
+        name: { type: String, required: true },
+        price: { type: Number },
+        seller: {type: mongoose.ObjectId, ref: 'User'},
+        picture:{type: String }
+        });
+    const UserSchema = mongoose.Schema({
+        userId: { type: Number, required: true,
+        unique: true },
+        name: { type: String, required: true },
+        passWord:{type: String, required: true },
+        picture:{type: String }
+        });
+    const Product = mongoose.model('Product',ProductSchema);
+    const User = mongoose.model('User',UserSchema);  
 
     app.all('/*', (req, res) => {
         res.sendFile(__dirname + '/homepage.html');
