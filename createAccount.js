@@ -4,6 +4,9 @@ var express = require('express');
 var app = express();
 var path = require("path");
 var nodemailer = require('nodemailer');
+var mongo = require('mongodb');
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb+srv://CSCI3100:Ab123456@cluster0.wkhhe.mongodb.net/User?retryWrites=true&w=majority";
 
 app.use(require('body-parser')());
 
@@ -13,7 +16,7 @@ app.get('/',function(req,res){
   
 app.listen(3000);
 
-app.post('/process', function(req, res) {
+app.post('/register', function(req, res) {
     console.log('Name : ' + req.body.username);
     console.log('Email : ' + req.body.email);
     console.log('Password : ' + req.body.password);
@@ -33,12 +36,23 @@ app.post('/process', function(req, res) {
       text: 'Testing'
     };
     
-    transporter.sendMail(mailOptions, function(error, info){
+    /*transporter.sendMail(mailOptions, function(error, info){
       if (error) {
         console.log(error);
       } else {
         console.log('Email sent: ' + info.response);
       }
+    });*/
+
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("User");
+      var myobj = { username: req.body.username, password: req.body.password, email: req.body.email };
+      dbo.collection("Users").insertOne(myobj, function(err, res) {
+        if (err) throw err;
+        console.log("1 document inserted");
+        db.close();
+      });
     });
 
     res.sendFile(path.join(__dirname+'/login.html'));
