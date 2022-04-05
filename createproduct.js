@@ -20,7 +20,7 @@ app.post('/createproduct', function(req, res) {
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db("Product");
-      var myobj = { productname: req.body.productname, quantity: req.body.quantity, remainquantity: req.body.quantity, price: req.body.price, contact: req.body.contact };
+      var myobj = { productname: req.body.productname, quantity: req.body.quantity, remain: req.body.quantity, price: req.body.price, contact: req.body.contact ,picture:req.body.picture};
       dbo.collection("Users").insertOne(myobj, function(err, res) {
         if (err) throw err;
         console.log("1 document inserted");
