@@ -20,16 +20,19 @@ db.once('open', function () {
     const ProductSchema = mongoose.Schema({
         productId: { type: Number, required: true,
         unique: true },
-        name: { type: String, required: true },
-        price: { type: Number },
+        productname: { type: String, required: true },
+        price: { type: Number, required: true },
+        quantity:{type: Number, required: true},
+        remain:{type: Number, required: true},
         seller: {type: mongoose.ObjectId, ref: 'User'},
         picture:{type: String }
         });
     const UserSchema = mongoose.Schema({
         userId: { type: Number, required: true,
         unique: true },
-        name: { type: String, required: true },
-        passWord:{type: String, required: true },
+        username: { type: String, required: true },
+        password:{type: String, required: true },
+        email:{type:String, required: true},
         picture:{type: String }
         });
     const Product = mongoose.model('Product',ProductSchema);
