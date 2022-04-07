@@ -37,18 +37,7 @@ db.once('open', function () {
         });
     const Product = mongoose.model('Product',ProductSchema);
     const User = mongoose.model('User',UserSchema);  
-    //login not yet tested!!!!!!!!!! , homepage not specific to user
-    app.post('/login',(req,res)=>{
-        User
-        .findOne({ email: req.body['email']},(err,user)=>{
-            if(err) 
-                return res.send(err);
-            else if(user==null) 
-                return res.send("user not found")
-            else if(user.password== req.body['pwd'])
-                return res.sendFile(__dirname + '/homepage.html')
-        });
-    });
+
 
     
 
