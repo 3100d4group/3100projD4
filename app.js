@@ -21,6 +21,8 @@ app.use(session({
 }));
 
 const createAcc = require("./createAccount.js");
+const createProd = require("./createproduct.js");
+const home = require("./homepage.js");
 
 const db = mongoose.connection;
 // Upon connection failure
@@ -70,9 +72,20 @@ db.once('open', function () {
             res.redirect('/login');
         }
         else{
-            res.sendFile(path.join(__dirname+'/homepage.html'));//requires path
+            home.loadHome(req,res);
         }
-    })
+    });
+    app.get('/createProduct',function(req,res){
+        res.sendFile(path.join(__dirname+'/createproduct.html'));
+      });
+    app.post('/createProduct',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else{
+            createProd.createProduct(req,res);
+        }
+    });
 })
 
 const server = app.listen(3000);
