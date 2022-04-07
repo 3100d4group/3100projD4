@@ -30,17 +30,32 @@ db.once('open', function () {
     const UserSchema = mongoose.Schema({
         userId: { type: Number, required: true,
         unique: true },
-        username: { type: String, required: true },
+        username: { type: String, required: true, unique:true },
         password:{type: String, required: true },
-        email:{type:String, required: true},
+        email:{type:String, required: true, unique:true},
         picture:{type: String }
         });
     const Product = mongoose.model('Product',ProductSchema);
     const User = mongoose.model('User',UserSchema);  
+    //login not yet tested!!!!!!!!!! , homepage not specific to user
+    app.post('/login',(req,res)=>{
+        User
+        .findOne({ email: req.body['email']},(err,user)=>{
+            if(err) 
+                return res.send(err);
+            else if(user==null) 
+                return res.send("user not found")
+            else if(user.password== req.body['pwd'])
+                return res.sendFile(__dirname + '/homepage.html')
+        });
+    });
+
+    
 
     app.all('/*', (req, res) => {
-        res.sendFile(__dirname + '/homepage.html');
+        res.sendFile(__dirname + '/login.html');
     });
 })
+
 
 const server = app.listen(3000);
