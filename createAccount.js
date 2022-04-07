@@ -13,7 +13,32 @@ app.use(require('body-parser')());
 
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/createAccount.html'));
+});
+
+app.post('/ToLogin',function(req,res){
+  res.sendFile(path.join(__dirname+'/login.html'));
+});
+
+app.post('/login',function(req,res){
+  console.log('Email : ' + req.body.email);
+  console.log('Password : ' + req.body.password);
+
+  MongoClient.connect(Mongourl, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("User");
+    dbo.collection("Users").find({}, { projection: { email: req.body.email, password: req.body.password, verify: 1 } }).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+      if(result[0].email == req.body.email && result[0].password == req.body.password){
+        res.sendFile(path.join(__dirname+'/homepage.html'));
+      }
+      else{
+        res.sendFile(path.join(__dirname+'/login.html'));
+      }
+      db.close();
+    });
   });
+});
 
   app.get('/verify',function(req,res){
     var q = url.parse(req.url, true);
