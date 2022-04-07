@@ -1,1 +1,5 @@
-3100 project group D4
+INSTALLED PACKAGES:
++-- cors@2.8.5
++-- express@4.17.3
++-- mongoose@6.2.9
+`-- nodemailer@6.7.3
