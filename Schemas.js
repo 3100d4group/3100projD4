@@ -7,6 +7,7 @@ const ProductSchema = mongoose.Schema({
     name: { type: String, required: true },
     price: { type: Number },
     seller: {type: mongoose.ObjectId, ref: 'User'},
+    remain: {type: Number},
     picture:{type: String }
     });
 const UserSchema = mongoose.Schema({
