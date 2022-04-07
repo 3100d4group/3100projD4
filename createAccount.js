@@ -1,19 +1,31 @@
 var http = require('http');
 var fs = require('fs');
+
 var express = require('express');
 var app = express();
+
 var url = require('url');
+
 var path = require("path");
+
 var nodemailer = require('nodemailer');
+
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 var Mongourl = "mongodb+srv://CSCI3100:Ab123456@cluster0.wkhhe.mongodb.net/User?retryWrites=true&w=majority";
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://stu128:p090058-@csci2720.m2qbq.mongodb.net/stu128');
+
+const doc = require("./Schemas.js");
+
 app.use(require('body-parser')());
 
+/*
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/createAccount.html'));
 });
+*/
 
 app.post('/ToLogin',function(req,res){
   res.sendFile(path.join(__dirname+'/login.html'));
@@ -59,9 +71,8 @@ app.post('/login',function(req,res){
     res.sendFile(path.join(__dirname+'/login.html'));
   });
   
-app.listen(3000);
 
-app.post('/register', function(req, res) {
+exports.registerAccount = function (req, res) {
     console.log('Name : ' + req.body.username);
     console.log('Email : ' + req.body.email);
     console.log('Password : ' + req.body.password);
@@ -94,6 +105,7 @@ app.post('/register', function(req, res) {
       }
     });
 
+    /*
     MongoClient.connect(Mongourl, function(err, db) {
       if (err) throw err;
       var dbo = db.db("User");
@@ -104,6 +116,17 @@ app.post('/register', function(req, res) {
         db.close();
       });
     });
-
-    res.sendFile(path.join(__dirname+'/login.html'));
-  });
+    */
+   
+   doc.User.create({
+    userId: req.body.username,
+    passWord: req.body.password,
+    email: req.body.email,
+    verify: 0
+   },(err,e)=>{
+    if (err) res.send(err);
+    else
+      console.log("1 document inserted");
+      res.send("Account created, please check your email for verification");
+   });
+  }
