@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://stu128:p090058-@csci2720.m2qbq.mongodb.net/stu128');
+mongoose.connect('mongodb+srv://CSCI3100:Ab123456@cluster0.wkhhe.mongodb.net/User?retryWrites=true&w=majority');
 
 const ProductSchema = mongoose.Schema({
     productId: { type: Number, required: true,
@@ -8,15 +8,15 @@ const ProductSchema = mongoose.Schema({
     price: { type: Number },
     seller: {type: mongoose.ObjectId, ref: 'User'},
     remain: {type: Number},
-    picture:{type: String }
+    picture:{ data: Buffer, contentType: String },
+    contact:{type: String}
     });
 const UserSchema = mongoose.Schema({
     userId: { type: String, required: true,
     unique: true },
     passWord:{type: String, required: true },
     email:{type: String, required: true},
-    picture:{type: String },
-    purchaseditem: {type: String, required: true}
+    picture:{ data: Buffer, contentType: String },
     verify:{type: Boolean, required: true}
     });
 const Producta = mongoose.model('Product',ProductSchema);
