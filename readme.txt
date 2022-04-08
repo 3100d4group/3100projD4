@@ -3,4 +3,5 @@ INSTALLED PACKAGES:
 +-- express-session@1.17.2
 +-- express@4.17.3
 +-- mongoose@6.2.9
++-- multer@1.4.4
 `-- nodemailer@6.7.3
