@@ -16,6 +16,7 @@ const UserSchema = mongoose.Schema({
     passWord:{type: String, required: true },
     email:{type: String, required: true},
     picture:{type: String },
+    purchaseditem: {type: String, required: true}
     verify:{type: Boolean, required: true}
     });
 const Producta = mongoose.model('Product',ProductSchema);
