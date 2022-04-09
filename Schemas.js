@@ -18,7 +18,8 @@ const UserSchema = mongoose.Schema({
     email:{type: String, required: true, unique: true},
     picture:{ data: Buffer, contentType: String },
     verify:{type: Boolean, required: true},
-    isAdmin:{type: Boolean, required: true}
+    isAdmin:{type: Boolean, required: true},
+    purchaseditem: {type: Array}
     });
 const Producta = mongoose.model('Product',ProductSchema);
 const Usera = mongoose.model('User',UserSchema);
