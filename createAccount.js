@@ -26,7 +26,7 @@ exports.userLogin = function(req,res){
       res.redirect('/home');
     }
     else{
-      res.send("Can't find acc or password is wrong");
+      res.render(__dirname+'/login.ejs',{message:"<p style=\"color:red\">Sorry, but it seems that the account does not exist or you have enter an incorrect password. Please try again.</p>"});
     }
   });
 };
@@ -35,16 +35,16 @@ exports.userVerify = function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query;
 
-    let conditions = {userId: qdata.username}, update = {$set:{verify: true}};
+    let conditions = {userId: qdata.username,verify:false}, update = {$set:{verify: true}};
     doc.User.updateOne(conditions, update,(err,e)=>{
         if (err){
           res.send(err);
         }
-        else if(e != null){
-          res.send("Verify complete!");
+        else if(e.modifiedCount != 0){
+          res.render(path.join(__dirname + '/toLogin.ejs'),{message:"<h1>You are good to go!</h1><p>Login to start shopping!</p>"});
         }
         else{
-          res.send("Can't find acc");
+          res.render(path.join(__dirname + '/toLogin.ejs'),{message:"<h1>Opps...</h1><p>Seems like there are some errors, or your have already been verified.</p>"});
       }
 
     });
@@ -81,6 +81,7 @@ exports.registerAccount = function (req, res) {
       userId: req.body.username,
       passWord: req.body.password,
       email: req.body.email,
+      isAdmin: false,
       picture: {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: req.file.mimetype
@@ -92,6 +93,6 @@ exports.registerAccount = function (req, res) {
     if (err) res.send(err);
     else
       console.log("1 document inserted");
-      res.send("Account created, please check your email for verification");
+      res.render(path.join(__dirname + '/toLogin.ejs'),{message:"<h1>Account created!</h1><p>Please check your email for verification.</p>"});
    });
   };
