@@ -2,7 +2,7 @@ const express = require('express'),
     app = express(),
     cors = require('cors'), //HTML form submittion
     bodyParser = require('body-parser'),
-    path = require("path"),//__dirname
+    path = require("path"),//.path
     session = require('express-session'),//session
     mongoose = require('mongoose'),
     multer = require("multer");//for uploading image
@@ -35,6 +35,7 @@ const createAcc = require("./createAccount.js");//creating account and login
 const createProd = require("./createproduct.js");//create product
 const home = require("./homepage.js");//load homepage where it display all the product
 const profile = require("./myprofile.js");//display my profile
+const changepassword = require("./changepassword.js");//change password
 
 //start
 const db = mongoose.connection;
@@ -46,7 +47,12 @@ db.once('open', function () {
     console.log("Connection is open...");
 
     app.all('/', (req, res) => {
-        res.sendFile(__dirname + '/createAccount.html');
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else{
+            home.loadHome(req,res);
+        }
     });
     app.get('/register', (req, res) => {
         res.sendFile(__dirname + '/createAccount.html');
@@ -72,7 +78,11 @@ db.once('open', function () {
         }
     });
     app.get('/createProduct',function(req,res){
-        res.sendFile(path.join(__dirname+'/createproduct.html'));
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else
+            res.sendFile(path.join(__dirname+'/createproduct.html'));
       });
     app.post('/createProduct',upload.single('productpic'), function(req,res){
         if(!req.session.user){
@@ -88,6 +98,20 @@ db.once('open', function () {
         }
         else
             profile.myProfile(req,res);
+    });
+    app.get('/changepassword',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else
+            res.sendFile(path.join(__dirname+'/changepassword.html'));
+    });
+    app.post('/changepassword',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else
+            changepassword.changepassword(req,res);
     });
     app.get('/logout',function(req,res){
         req.session.destroy();
