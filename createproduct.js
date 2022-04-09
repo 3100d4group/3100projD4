@@ -42,7 +42,7 @@ exports.createProduct =  function(req, res) {
                 res.send(err);
               else
                 console.log("1 product inserted");
-                res.send("Product created!");
+                res.redirect("home");
             });
           }
         });
