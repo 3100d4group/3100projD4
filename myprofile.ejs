@@ -49,20 +49,32 @@
     </nav>
     <div class="container-fluid">
         <h1 class="mx-5 mt-5">My Profile</h1>
-        <img src="data:user/<%user.picture.contentType%>;base64,<%=user.picture.data.toString('base64')%>"
-            style="width: 200px; height: 200px; object-fit: cover;" 
-            id="propic" 
-            class="img-thumbnail mx-5 rounded-circle" >
         <br>
-        <a href="#" class="btn btn-primary ms-5 mt-3">Upload new profile photo</a>
-        <h3 class="mx-5 mt-5">Username:</h3>
-        <h3 class="mx-5" id="username"><%= user.userId %></h3>
-        <br>
-        <h3 class="mx-5">Email:</h3>
-        <h3 class="mx-5" id="email"><%= user.email %></h3>
-        <a href="purchasehistory" class="btn btn-primary ms-5 mt-3">View Order History</a>
-        <a href="changepassword" class="btn btn-primary ms-5 mt-3">Change Passsword</a>
-        <a href="logout" class="btn btn-danger ms-5 mt-3">Logout</a>
+        <div class="container col-11 bg-white py-5 px-4">
+            <div class ="row justify-content-evenly align-items-center">
+                <div class = "col-12 col-sm-4 col-md-3 col-lg-2">
+                    <img src="data:user/<%user.picture.contentType%>;base64,<%=user.picture.data.toString('base64')%>"
+                        style="width: 25vh; height: 25vh; object-fit: cover;" 
+                        id="propic" 
+                        class="rounded-circle" >
+                    <br>
+                    <br>
+                    <a href="#" class="btn btn-primary">Upload new profile photo</a>
+                </div>
+                <div class = "col-12 col-sm-8 col-md-8 col-lg-7">
+                    <h3 class="">Username:</h3>
+                    <h3 class="" id="username"><%= user.userId %>  <%= user.isAdmin ? "[Admin]" : "" %></h3>
+                    <br>
+                    <h3 class="">Email:</h3>
+                    <h3 class="" id="email"><%= user.email %></h3>
+                    <br>
+                    <a href="purchasehistory" class="btn btn-primary me-2 mb-2">View Order History</a>
+                    <%- user.isAdmin==true ? "<a href=\"admin\" class=\"btn btn-success me-2 mb-2\">Admin page</a>" : "" %>
+                    <a href="changepassword" class="btn btn-primary me-2 mb-2">Change Passsword</a>
+                    <a href="logout" class="btn btn-danger me-2 mb-2">Logout</a>
+                </div>
+            </div>
+        </div>
         <br>
         <br>
         <br>
