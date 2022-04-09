@@ -1,5 +1,3 @@
-//not yet tested
-
 const fs = require('fs');
 
 const path = require("path");
@@ -45,7 +43,7 @@ exports.displayUsers = function(req,res){
 }})}
 
 exports.resetPW=function(req,res){
-    let conditions={userId: }, update={$set:{passWord:"000"}};
+    let conditions={userId: req.body.usertochange}, update={$set:{passWord: req.body.passwordreset}};
     document.User.updateOne(conditions, update, (err,e)=>{
         if (err){
             res.send(err);
