@@ -54,4 +54,23 @@
             <h1 class="mx-5 mt-5">Products</h1>
             <br>
             <div class="d-flex flex-row m-4" id="products">
-                                <!--this document is not a finished html document and it is just used for sending the response-->
+                <!-- https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/ -->
+                <% products.forEach(function(product) { %>
+                    <div class="card col-6 col-md-4 col-xl-3" style="height : 450px;">
+                        <img src="data:product/<%product.picture.contentType%>;base64,<%=product.picture.data.toString('base64')%>" 
+                            class="card-img-top" style="height : 40%; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5><br>
+                            <p class="card-text\">Price: $<%= product.price %><br>
+                            <%= product.remain %> remaining<br>
+                            Contact: <%= product.contact %><br>
+                            Posted by <%= product.seller.userId %><br>
+                            Ref: productId <%= product.productId %></p>
+                        <a href="#" class="btn btn-primary">Buy</a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </body>
+</html>
