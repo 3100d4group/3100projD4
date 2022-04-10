@@ -1,33 +1,24 @@
-const express = require('express'),
-app = express();
-
-
-const path = require("path");
-const session = require('express-session');
 const schema = require("./Schemas.js");
 
-exports.purchasehistory = function(req,res){
-    //find the user 
-    schema.User.findOne( {email: req.session.user}, (err, user)=>{    
-        if (err) 
-            res.send(err); 
-        else{
-            productlist='';
-            //find the product using the productId stored in purchaseditem
-            user.purchaseditem.forEach(item => {
-                schema.Product.findOne(
-                    {productId: item},(err,product)=>{
-                        if(err) res.send(err);
-                    //add the html to object productlist
-                    productlist+="<div class=\"list-group-item list-group-item-action\">\
-                                <span>"+ product.name + "</span><span style=\"float: right\">"
-                                +product.price+ "</span></div>";
+const express = require('express');
+const app = express();
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://CSCI3100:Ab123456@cluster0.wkhhe.mongodb.net/User?retryWrites=true&w=majority');
+    
+exports.displayhistory = function(req,res){
+        schema.User.findOne( {email: req.session.user}).exec((err, currentuser)=>{    
+            if (err) 
+                return res.send(err); 
+            else{
+                schema.History.find({user:currentuser._id}).populate('product').sort({Date:-1}).exec((err,histories)=>{
+                    if (err) {
+                        return res.send(err); 
                     }
-                    
-                ); 
-            //pass the productlist(html) to purchasehistory.ejs
-            res.render(path.join(__dirname + '/purchasehistory.ejs'),{ listitem :productlist });
-            });  
-        }
-    });
+                    else{
+                        res.render(__dirname+'/purchasehistory.ejs',{histories: histories});
+                    }
+                });
+            }    
+        });       
 };
