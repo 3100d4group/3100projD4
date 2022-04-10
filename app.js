@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.engine('html', require('ejs').renderFile);
 app.use(session({
   secret: 'recommand 128 bytes random string',
-  cookie: { maxAge: 60 * 1000 }
+  cookie: { maxAge: 300 * 1000 }
 }));
 
 //multer
@@ -36,6 +36,12 @@ const createProd = require("./createproduct.js");//create product
 const home = require("./homepage.js");//load homepage where it display all the product
 const profile = require("./myprofile.js");//display my profile
 const changepassword = require("./changepassword.js");//change password
+const admin = require("./admin.js");//admin fct
+const schema = require("./Schemas");
+const Prod = require("./handleproduct.js");
+const history = require("./purchasehistory.js");
+
+const res = require('express/lib/response');
 
 //start
 const db = mongoose.connection;
@@ -55,16 +61,36 @@ db.once('open', function () {
         }
     });
     app.get('/register', (req, res) => {
-        res.sendFile(__dirname + '/createAccount.html');
+        if(!req.session.user){
+            res.sendFile(__dirname + '/createAccount.html');
+        }
+        else{
+            res.redirect('/home');
+        }
     });
     app.post('/register', upload.single('propic'), function(req, res) {
-        createAcc.registerAccount(req, res);
+        if(!req.session.user){
+            createAcc.registerAccount(req, res);
+        }
+        else{
+            res.redirect('/home');
+        }
     });
     app.get('/verify',function(req,res){
-        createAcc.userVerify(req, res);
+        if(!req.session.user){
+            createAcc.userVerify(req, res);
+        }
+        else{
+            res.redirect('/home');
+        }
     });
     app.get('/login',function(req,res){
-        res.sendFile(path.join(__dirname+'/login.html'));//requires path
+        if(!req.session.user){
+            res.render(path.join(__dirname+'/login.ejs'),{message:""});//requires path
+        }
+        else{
+            res.redirect('/home');
+        }
     });
     app.post('/login',function(req,res){
         createAcc.userLogin(req,res);
@@ -75,6 +101,14 @@ db.once('open', function () {
         }
         else{
             home.loadHome(req,res);
+        }
+    });
+    app.post('/home',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else{
+            Prod.handleProd(req,res);
         }
     });
     app.get('/createProduct',function(req,res){
@@ -104,7 +138,7 @@ db.once('open', function () {
             res.redirect('/login');
         }
         else
-            res.sendFile(path.join(__dirname+'/changepassword.html'));
+            res.render(path.join(__dirname+'/changepassword.ejs'),{message:""});
     });
     app.post('/changepassword',function(req,res){
         if(!req.session.user){
@@ -113,10 +147,52 @@ db.once('open', function () {
         else
             changepassword.changepassword(req,res);
     });
+    app.get('/admin',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else
+        schema.User.findOne( {email: req.session.user}) .exec(function(err, user){    
+            if (err) 
+                res.send(err); 
+            else if(user.isAdmin == true){
+                admin.displayUsers(req,res,"");
+            }
+            else{
+                res.send("You do not have admin rights!");
+            }
+        });
+    });
+    app.post('/admin',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else
+        schema.User.findOne( {email: req.session.user}) .exec(function(err, user){    
+            if (err) 
+                res.send(err); 
+            else if(user.isAdmin == true){
+                admin.resetPW(req,res);
+            }
+            else{
+                res.send("You do not have admin rights!");
+            }
+        });
+    });
+    app.get('/purchasehistory',function(req,res){
+        if(!req.session.user){
+            res.redirect('/login');
+        }
+        else
+            history.displayhistory(req,res);
+    });
     app.get('/logout',function(req,res){
         req.session.destroy();
         res.redirect('/login');
     });
+    //app.all('/*',function(req,res){
+    //    res.redirect('/home');
+    //});
 })
 
 const server = app.listen(3000);
