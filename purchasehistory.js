@@ -1,57 +1,33 @@
-const fs = require('fs');
+const express = require('express'),
+app = express();
+
 
 const path = require("path");
-
+const session = require('express-session');
 const schema = require("./Schemas.js");
 
-const express = require('express');
-const app = express();
-app.use(require('body-parser')());
-
-const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://stu128:p090058-@csci2720.m2qbq.mongodb.net/stu128');
-
-    /*
-    const ProductSchema = mongoose.Schema({
-        productId: { type: Number, required: true,
-        unique: true },
-        name: { type: String, required: true },
-        price: { type: Number },
-        seller: {type: mongoose.ObjectId, ref: 'User'},
-        picture:{type: String }
-        });
-    const UserSchema = mongoose.Schema({
-        userId: { type: Number, required: true,
-        unique: true },
-        name: { type: String, required: true },
-        passWord:{type: String, required: true },
-        email:{type: String, required: true},
-        picture:{type: String },
-        verify:{type: Boolean, required: true}
-        });
-    const Product = mongoose.model('Product',ProductSchema);
-    const User = mongoose.model('User',UserSchema);   */
-    
-exports.loadHome = function(req,res){
-    fs.readFile(__dirname+'/purchasehistory.html', function(err, html) { //require fs
+exports.purchasehistory = function(req,res){
+    //find the user 
+    schema.User.findOne( {email: req.session.user}, (err, user)=>{    
         if (err) 
-            return res.send(err);    
-        else{ 
-            res.write(html);//express
-            schema.User.findOne( {email: req.session.user} .exec(function(err, user){    
-                if (err) 
-                    return res.send(err); 
-                else{
-                        res.write(user.purchaseditem);
+            res.send(err); 
+        else{
+            productlist='';
+            //find the product using the productId stored in purchaseditem
+            user.purchaseditem.forEach(item => {
+                schema.Product.findOne(
+                    {productId: item},(err,product)=>{
+                        if(err) res.send(err);
+                    //add the html to object productlist
+                    productlist+="<div class=\"list-group-item list-group-item-action\">\
+                                <span>"+ product.name + "</span><span style=\"float: right\">"
+                                +product.price+ "</span></div>";
                     }
                     
-
-            }));
-            res.write("</div><br><br></form></body></html>");
-            res.end();
-            
+                ); 
+            //pass the productlist(html) to purchasehistory.ejs
+            res.render(path.join(__dirname + '/purchasehistory.ejs'),{ listitem :productlist });
+            });  
         }
     });
 };
-//To do: need to add  to buyproduct.js :
-//<div class="list-group-item list-group-item-action"><span>(product)hello </span><span style="float: right">(price)$100 * (quantity)10</span></div>
