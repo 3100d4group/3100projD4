@@ -8,7 +8,7 @@ Lau Ho Man 1155157519
 
 Edit by: Wong Ngou Shan on 11/4/2022 1:39am
 
-Front end: HTML, ejs
+Front end: HTML with bootstrap, ejs
 Server: node.js with express
 Database: mongoDB with mongoose
 
