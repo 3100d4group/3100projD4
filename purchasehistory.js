@@ -11,7 +11,7 @@ exports.displayhistory = function(req,res){
             if (err) 
                 return res.send(err); 
             else{
-                schema.History.find({user:currentuser._id}).populate('product').sort({Date:-1}).exec((err,histories)=>{
+                schema.History.find({buyer:currentuser._id}).populate('product').sort({Date:-1}).exec((err,histories)=>{
                     if (err) {
                         return res.send(err); 
                     }
