@@ -51,26 +51,26 @@
             <div >
                 <img src="..." alt="Upload Product Photo">
                 <br>
-                <input type="file" class="form-control" id="customFile" name="productpic"/>
+                <input type="file" class="form-control" id="customFile" name="productpic" required>
             </div>
             <br>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name of product" name='productname'>
+                <input type="text" class="form-control" id="floatingInput" placeholder="name of product" name='productname' required>
                 <label for="floatingInput">product name</label>
             </div>
             <br>
             <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="quantity" min="1" placeholder="number of products" name="quantity">
+                <input type="number" class="form-control" id="quantity" min="1" placeholder="number of products" name="quantity" required>
                 <label for="quantity">number of products available</label>
             </div>
             <br>
             <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="price" min='1' placeholder="Price" name="price">
+                <input type="number" class="form-control" id="price" min='1' placeholder="Price" name="price" required>
                 <label for="price">price (per buyer)</label>
             </div>
             <br>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="contact" placeholder="contact" name='contact'>
+                <input type="text" class="form-control" id="contact" placeholder="contact" name='contact' required>
                 <label for="contact">Other details</label>
             </div>
             <button class="btn btn-secondary" type="submit">Create Product and Start Selling</button>

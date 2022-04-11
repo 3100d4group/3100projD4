@@ -74,7 +74,7 @@
                                 <form action ="admin" method="POST">
                                     <div class="form-floating">
                                         <input type="text" id="lname" value=<%= user.email %>  name="userToChange" style="display:none" readonly>
-                                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="passwordReset">
+                                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="passwordReset" required>
                                         <label for="floatingPassword">Reset Password</label>
                                         <br>
                                         <button class="col-4 btn btn-warning" type="submit" name="action" value="Reset">Reset Password</button>
