@@ -65,7 +65,7 @@ exports.registerAccount = function (req, res) {
       from: 'csci3100proj4@gmail.com',
       to: req.body.email,
       subject: 'Email verification',
-      html: '<a href="http://ec2-54-152-247-219.compute-1.amazonaws.com:3000/verify?username=' + req.body.username + '">click here to verify your account</a>'
+      html: '<a href="ec2-44-202-57-120.compute-1.amazonaws.com:3000/verify?username=' + req.body.username + '">click here to verify your account</a>'
     };
 
     transporter.sendMail(mailOptions, function(error, info){
