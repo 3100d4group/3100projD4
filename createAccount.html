@@ -1,3 +1,15 @@
+<!--
+    module to create account using form
+
+    module name: createAccount interface
+    programmer: cheng yee han
+    version:1.0 (1 April 22)
+
+    form method: post
+    form action: /register
+    input parameter: propic, username, email, password
+
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,6 +34,7 @@
         </style>
     </head>
     <body>
+        <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid justify-content-left">
                 <a class="navbar-brand"> BuyBuyDuck</a>
@@ -31,6 +44,7 @@
                 
             </div>
         </nav>
+        <!--form for creating account, require propic, username, email, password-->
         <form action="/register" enctype="multipart/form-data" class="container px-4" method="POST">
             <br>
             <br>
@@ -60,6 +74,7 @@
             <br>
             <br>
         </form>
+        <!--link to login interface-->
         <p class="container px-4">
         <span>Already have an account?&nbsp;</span> <a class="btn btn-secondary" href="login">Log In</a>
         </p>
