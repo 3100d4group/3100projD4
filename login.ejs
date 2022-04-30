@@ -1,3 +1,16 @@
+<!--
+    module to login using form
+
+    module name: login interface
+    programmer: cheng yee han
+    version:1.0 (31 March 22)
+
+    form method: post
+    form action: /login
+    input parameter: email, password
+    output login error (ejs, render if the account does not exist or you have enter an incorrect password): message
+
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,6 +36,7 @@
     </head>
 
     <body>
+        <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid justify-content-left">
                 <a class="navbar-brand" > BuyBuyDuck</a>
@@ -32,11 +46,12 @@
                 
             </div>
         </nav>
-
+        <!--form for login, require email, password-->
         <form action ="/login" class="container px-4" method="POST">
             <br>
             <br>
             <h1>Login</h1>
+            <!--error message-->
             <%- message %>
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
@@ -51,7 +66,7 @@
             <button class="btn btn-secondary" type="submit">Log In</button>
             <br>
             <br>
-            
+            <!--link to create account interface -->
             <span>New to Online Group Buying?&nbsp;</span> <a href="register" >Create an account</a>
     </body>
 </html>
