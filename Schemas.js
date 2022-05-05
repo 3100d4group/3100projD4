@@ -1,9 +1,9 @@
-<!--
+/*
     Schemas which indicates the type of data
     module name: Database schemas
     programmer: Wong Ngou Shan, Yip Yuk Pang
     version:1.0 (8 April 22)
--->
+*/
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://CSCI3100:Ab123456@cluster0.wkhhe.mongodb.net/User?retryWrites=true&w=majority');
 
